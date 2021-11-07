@@ -40,10 +40,13 @@ export type PersistedState = Partial<{
     id: string;
     amount: number;
     activeAttributes: Record<string, any>;
-    price:number;
+    prices:number;
     name:string;
     brand:string;
     gallery:any;
+    inStock:boolean;
+    attributes:any;
+    price:any;
   }[];
 }>;
 

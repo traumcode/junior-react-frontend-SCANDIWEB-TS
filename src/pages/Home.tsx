@@ -106,7 +106,7 @@ export default class Home extends React.Component<CommonProps, State> {
     return (
       <div className={styles.mainContainer}>
         <div className={styles.categoryNameContainer}>
-          <h2 className={styles.categoryName}>{this.state.currentCategory}</h2>
+          <h2 className={styles.categoryName}>{this.props?.mainStorage?.category?.toLocaleUpperCase()}</h2>
         </div>
         <div className={styles.productContainer}>{this.displayProducts()}</div>
       </div>

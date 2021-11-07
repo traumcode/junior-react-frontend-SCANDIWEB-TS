@@ -13,11 +13,12 @@ export const currencyToSign = {
 export const getPrice = (prices = [], currency = "USD") => {
   let price = prices.find((item) => item.currency === currency);
   const currencySign = currencyToSign[price?.currency];
-  return currencySign + " " + (price?.amount || "?");
+  return currencySign + " " + (price.amount || "?");
 };
 
 export default class Product extends React.Component<any> {
   render() {
+
     return (
       <div
         className={`${!this.props.inStock ? styles.productIsOutOfStock : ""} ${styles.productCard}`}
@@ -38,7 +39,7 @@ export default class Product extends React.Component<any> {
           <div className={styles.cardContent}>
             
             <h3 className={styles.productTitle}>{this.props.name}</h3>
-            <h3 className={styles.productPrice}>{getPrice(this.props.prices, this.props.currency)}</h3>
+            <h3 className={styles.productPrice}>{getPrice(this.props?.prices, this.props.currency)}</h3>
           </div>
         </Link>
       </div>

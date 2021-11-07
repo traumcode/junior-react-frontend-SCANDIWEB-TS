@@ -87,6 +87,7 @@ export default class ProductPage extends Component<
 
   buttonHandler(activeAttributes, productAttribute) {
     if (activeAttributes === productAttribute) {
+      
       setMainStorage({
         cartProducts: [
           ...(this.props.mainStorage.cartProducts || []),
@@ -94,10 +95,13 @@ export default class ProductPage extends Component<
             id: this.state.id,
             amount: 1,
             activeAttributes: this.state.activeAttributes,
-            price:parseInt(getPrice(this.state.prices, "USD").split("$ ")[1]),
+            prices:parseInt(getPrice(this.state?.prices, "USD").split("$ ")[1]),
+            price:this.state.prices,
             name: this.state.name,
             brand: this.state.brand,
             gallery: this.state.gallery,
+            attributes:this.state.attributes,
+            inStock:true,
           },
         ],
       });

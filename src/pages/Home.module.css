@@ -1,5 +1,6 @@
 .mainContainer {
-  margin: 50px 100px 0px 100px;
+  margin: 0 100px 0px 100px;
+  height:2000px;
 }
 
 .categoryName {
@@ -9,6 +10,8 @@
   font-style: normal;
   line-height: 67.2px;
   margin-bottom: 100px;
+  margin-top: 0;
+  padding-top: 50px;
 }
 
 .productContainer {

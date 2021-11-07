@@ -18,6 +18,7 @@ const Head = styled.div`
   top: 0%;
   bottom: 0%;
   display: flex;
+  margin: 0;
 `;
 
 const CategoryButton = styled.button`
@@ -70,7 +71,7 @@ export default class Header extends React.Component<
   }
   calculateTotal() {
     let total = 0;
-    this.props.mainStorage?.cartProducts?.forEach((product) => (total += product.price));
+    this.props.mainStorage?.cartProducts?.forEach((product) => (total += product.prices));
     return total;
   }
 
@@ -189,7 +190,7 @@ export default class Header extends React.Component<
                             {product.name}
                             {product.brand}
                           </div>
-                          <div className={styles.price}>$ {product.price}</div>
+                          <div className={styles.price}>$ {product.prices}</div>
                         </div>
                         <div className={styles.itemQuantity}>
                           <div>
@@ -221,7 +222,12 @@ export default class Header extends React.Component<
                 </div>
                 <div className={styles.dropDownShoppingCartButtonContainer}>
                   <div>
-                    <button className={styles.viewBag}>VIEW BAG</button>
+                    <Link to={{ pathname:"/cart"}}>
+                      <button onClick={() => {
+                        setMainStorage({ isMenuDown: !this.props.mainStorage.isMenuDown });
+                        this.setState({ isCartMenuDown: !this.state.isCartMenuDown });
+                      }} className={styles.viewBag}>VIEW BAG</button>
+                    </Link>
                   </div>
                   <div>
                     <button className={styles.checkout}>CHECK OUT</button>
@@ -236,7 +242,7 @@ export default class Header extends React.Component<
               </div>
               <div className={styles.itemsContainer}>
                 {this.props.mainStorage?.cartProducts?.map((product, index) => {
-                  return (  
+                  return (
                     <div key={index}>
                       <div className={styles.dropDownShoppingCartItemContainer}>
                         <div className={styles.itemNamePrice}>
@@ -244,7 +250,7 @@ export default class Header extends React.Component<
                             {product.name}
                             {product.brand}
                           </div>
-                          <div className={styles.price}>$ {product.price}</div>
+                          <div className={styles.price}>$ {product.prices}</div>
                         </div>
                         <div className={styles.itemQuantity}>
                           <div>

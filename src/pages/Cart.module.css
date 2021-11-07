@@ -1,0 +1,137 @@
+.mainContainer {
+  margin: 0 100px 0px 100px;
+  height: 2000px;
+}
+
+.categoryName {
+  font-size: 42px;
+  font-family: Raleway;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 67.2px;
+  margin-bottom: 40px;
+  margin-top: 0;
+  padding-top: 50px;
+}
+
+.productContainer {
+  display: flex;
+  justify-content: space-between;
+  height: 250px;
+  width: 100%;
+}
+
+.titlePriceAttributeContainer {
+  height: 100%;
+  width: 300px;
+}
+
+.name {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 25%;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 25%;
+  font-size: 30px;
+}
+
+.price {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 25%;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 18px;
+}
+.attributesContainer {
+  width: 300%;
+  height: 25%;
+}
+
+.quantityPhotoContainer {
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
+  height: 100%;
+  width: 500px;
+}
+
+.quantityContainer {
+  height: 100%;
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: space-between;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.plus {
+  width: 45px;
+  height: 45px;
+  border: 1px solid #1d1f22;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 50px;
+  font-weight: 100;
+  cursor: pointer;
+}
+
+.plus:hover {
+  background-color: rgb(204, 204, 204);
+}
+
+.plus:active {
+  background-color: rgb(236, 236, 236);
+}
+.quantity {
+  font-size: 40px;
+  font-weight: 100;
+}
+
+.minus {
+  width: 45px;
+  height: 45px;
+  border: 1px solid #1d1f22;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 50px;
+  font-weight: 100;
+  cursor: pointer;
+}
+.minus:hover {
+  background-color: rgb(204, 204, 204);
+}
+
+.minus:active {
+  background-color: rgb(236, 236, 236);
+}
+.photoContainer {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: space-around;
+  justify-content: space-around;
+  align-items: flex-end;
+  width: 190px;
+  height: 100%;
+}
+
+.photo {
+  max-width: 90%;
+  max-width: 90%;
+}

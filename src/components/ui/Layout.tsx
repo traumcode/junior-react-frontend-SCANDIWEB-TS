@@ -7,7 +7,6 @@ export default class Layout extends React.Component<CommonProps> {
   state = {};
 
   render() {
-    console.log(this.props.mainStorage.isMenuDown)
     return (
       <div>
         <div>
