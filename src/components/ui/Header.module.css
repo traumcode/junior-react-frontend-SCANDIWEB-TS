@@ -1,0 +1,372 @@
+.navigation {
+  height: 100%;
+  width: 100%;
+  background-color: #ffffff;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.category {
+  height: 56px;
+  width: 234px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+}
+
+.logoContainer {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.shoppingCartAndCurrencyContainer {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.smallContainer {
+  height: 40px;
+  width: 204px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+
+  position: absolute;
+  width: 204px;
+  height: 40px;
+  right: 101px;
+  top: 23px;
+}
+
+.shoppingCartButtonContainer {
+  position: static;
+  height: 25px;
+  right: 0px;
+  top: calc(50% - 20px / 2);
+
+  flex: none;
+  order: 3;
+  flex-grow: 0;
+  margin: 0px 22px;
+}
+
+.shoppingCartButton {
+  border: 0;
+  margin-top: 0.25rem;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.currencyButtonContainer {
+  display: inline-block;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+}
+
+.currencyButton {
+  width: 10px;
+  display: flex;
+  margin-top: 0.3rem;
+  justify-content: center;
+  align-items: center;
+  border: 0;
+  background-color: transparent;
+  cursor: pointer;
+}
+.currencyButton h3 {
+  font-family: "Raleway", sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.currencyContent {
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 120px;
+  top: 100%;
+  right: -2px;
+  left: -80px;
+  margin-right: 100px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  padding: 12px 16px;
+  z-index: 1;
+}
+
+.currencyButtonContainer:hover .currencyContent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.currencyButtonText {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 160%;
+}
+
+.currencyButtonText:hover {
+  background-color: rgb(236, 236, 236);
+}
+
+.categoryButton {
+  all: unset;
+  position: static;
+  height: 20px;
+  left: 0;
+  right: 0;
+  top: calc(50% - 20px / 2 - 16px);
+
+  font-style: normal;
+  font-weight: 600;
+  line-height: 120%;
+
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  margin: 30px 0px;
+}
+
+.link {
+  all: unset;
+}
+
+.totalItems {
+  background-color: black;
+  border-radius: 50%;
+  color: white;
+  display: inline-block;
+  position: absolute;
+  top: 20%;
+  left: 83%;
+  font-size: 12px;
+  line-height: 1;
+  padding: 3px 7px;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.dropDownShoppingCart {
+  position: absolute;
+  width: 325px;
+  height: 540px;
+  right: 6%;
+  top: 78px;
+  background-color: white;
+  animation: growDown 500ms ease-in-out forwards;
+  transform-origin: top center;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+.itemsContainer {
+  margin-top: 10px;
+  height: 70%;
+  width: 325px;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+
+@keyframes growDown {
+  0% {
+    transform: scaleY(0);
+  }
+  80% {
+    transform: scaleY(1.1);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+.dropDownShoppingCartTitle {
+  margin-top: 8px;
+  margin-left: 16px;
+  width: 100%;
+  height: 26px;
+  position: absolute;
+  z-index: 1;
+  background-color:white;
+
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 160%;
+}
+
+.dropDownShoppingCartItemContainer {
+  display: flex;
+  flex-direction: row;
+  width: 287px;
+  height: 137px;
+  background-color: transparent;
+  margin-top: 40px;
+  margin-right: 16px;
+  margin-left: 16px;
+}
+
+.bottomContainer {
+  position: absolute;
+  width: 325px;
+  height: 100px;
+  background-color: white;
+  top: 423px;
+}
+
+.totalPriceContainer {
+  width: 287px;
+  margin-left: 16px;
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.totalPrice {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 18px;
+}
+
+.dropDownShoppingCartButtonContainer {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.viewBag {
+  width: 140px;
+  height: 42px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  background-color: white;
+  border: 1px solid #1D1F22;
+
+  color: black;
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.viewBag:hover {
+  background-color: #555555;
+  color: white;
+}
+.viewBag:active {
+  background-color: #383838;
+  color: white;
+}
+
+.checkout {
+  background-color: #5ece7b; /* Green */
+  border: none;
+  color: white;
+  width: 140px;
+  height: 42px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: lighter;
+  font-size: 16px;
+}
+
+.checkout:hover {
+  background-color: #52da76;
+  color: white;
+}
+
+.checkout:active {
+  background-color: #45ca68;
+  color: white;
+}
+.itemNamePrice {
+  display: flex;
+  flex-direction: column;
+  width: 130%;
+  height: 100%;
+  justify-content: space-around
+
+
+}
+
+.buttonQuantity {
+  display: flex;
+  font-size: 20px;
+  background-color:white;
+  border: 1px solid #1D1F22;
+  height: 24px;
+  width: 24px;
+  align-items: center;
+  justify-content:center;
+  font-weight: lighter;
+
+}
+
+.buttonQuantity:hover{
+  background-color:rgb(204, 204, 204);
+}
+
+.buttonQuantity:active{
+  background-color:rgb(236, 236, 236);
+}
+
+.itemQuantity {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  height: 100%;
+  justify-content: space-around;
+  align-items: center;
+}
+.itemImage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+    width: 190px;
+  height: 100%;
+}
+
+.image{
+  max-width: 100%;
+  max-width: 100%;
+}
+.name {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 19px;
+  line-height: 160%;
+}
+
+.price {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 19px;
+  line-height: 160%;
+}

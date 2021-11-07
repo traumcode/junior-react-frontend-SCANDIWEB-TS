@@ -1,0 +1,296 @@
+.loadingBar {
+  display: inline-block;
+  width: 100%;
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loadingBar:after {
+  content: " ";
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 6px solid #5ece7b;
+  border-color: #5ece7b transparent #5ece7b transparent;
+  animation: loadingBar 1.2s linear infinite;
+}
+@keyframes loadingBar {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.productContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  margin: 100px 50px 0px 70px;
+}
+
+.productPhotosLeft {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-content: space-between;
+  height: 90vh;
+  width: 12vw;
+  height: 100%;
+}
+
+.smallImage {
+  cursor: pointer;
+  width: 60%;
+  height: 60%;
+  margin: 0 0 2vw 0;
+}
+
+.productPhotoCenter {
+  display: flex;
+  position: relative;
+  width: 45%;
+  height: 45%;
+  margin: 0 5vw 2vw 0;
+}
+
+.productDetails {
+  display: flex;
+  flex-direction: column;
+}
+
+.productTitle {
+  font-family: Raleway;
+  font-style: normal;
+  font-size: 30px;
+  color: #1d1f22;
+  line-height: 50px;
+}
+
+.productBrand {
+  font-family: "Raleway", sans-serif;
+  font-style: normal;
+  font-size: 30px;
+  color: #1d1f22;
+  margin-bottom: 30px;
+}
+
+.productAttributeTitle {
+  font-family: "Roboto Condensed";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 18px;
+}
+
+.attributeButtonContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.attributeValueColorContainer {
+  margin-right: 10px;
+}
+
+.attributeValueContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 63px;
+  height: 45px;
+  border: 1px solid black;
+  margin-right: 10px;
+  margin-bottom: 30px;
+}
+
+.attributeSizeButtonText {
+  font-family: Source Sans Pro;
+  font-size: 16px;
+  margin: 0;
+  font-weight: 400;
+  line-height: 18px;
+}
+
+.productPriceContainer {
+  font-family: Source Sans Pro;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 18px;
+}
+
+.productPriceTitle {
+  margin-bottom: 15px;
+}
+
+.productPrice {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 18px;
+  color: #1d1f22;
+}
+
+.buttonContainer {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.buttonCart {
+  width: 292px;
+  height: 52px;
+  background-color: #5ece7b; /* Green */
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.buttonCart:hover {
+  background-color: #79dd96; /* Green */
+}
+
+.buttonCart:active {
+  background-color: #50b46d; /* Green */
+}
+
+.buttonCartOutOfStock {
+  opacity: 0.6;
+  cursor: not-allowed;
+  width: 292px;
+  height: 52px;
+  background-color: #5ece7b; /* Green */
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+.modal {
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modalContent {
+  position: relative;
+  text-align: center;
+  font-size: 20px;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 0;
+  border: 1px solid #888;
+  width: 40%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s;
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+
+/* The Close Button */
+.close {
+  color: white;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modalHeader {
+  padding: 2px 16px;
+  background-color: #f06470;
+  color: white;
+}
+
+.modalBody {
+  padding: 2px 16px;
+}
+.modalButtonContainer {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalButton {
+  width: 192px;
+  height: 52px;
+  background-color: #f06470; /* Green */
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.modalButton:hover {
+  background-color: #f6818b; /* Green */
+}
+
+.modalButton:active {
+  background-color: #d33441; /* Green */
+}
+
+.productInfoContainer {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: normal;
+}
