@@ -49,6 +49,7 @@ export type PersistedState = Partial<{
 export type CommonProps = {
   mainStorage: PersistedState;
   client: ApolloClient<NormalizedCacheObject>;
+  
 };
 
 type Props = {};
