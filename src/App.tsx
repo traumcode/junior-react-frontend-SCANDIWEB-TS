@@ -33,6 +33,7 @@ const client = new ApolloClient({
 });
 
 export type PersistedState = Partial<{
+  isMenuDown:boolean,
   category: string,
   currency: keyof typeof currencyToSign;
   cartProducts: {
@@ -63,6 +64,7 @@ export default class App extends React.Component<Props, State> {
     mainStorage: {
       currency: undefined,
       category:undefined,
+      isMenuDown:false
     },
   };
   _isMounted = true;

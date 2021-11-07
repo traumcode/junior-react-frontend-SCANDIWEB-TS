@@ -158,6 +158,7 @@ export default class Header extends React.Component<
               </div>
               <div
                 onClick={() => {
+                  setMainStorage({ isMenuDown: !this.props.mainStorage.isMenuDown });
                   this.setState({ isCartMenuDown: !this.state.isCartMenuDown });
                 }}
                 className={styles.shoppingCartButtonContainer}

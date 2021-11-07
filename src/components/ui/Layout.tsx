@@ -7,12 +7,13 @@ export default class Layout extends React.Component<CommonProps> {
   state = {};
 
   render() {
+    console.log(this.props.mainStorage.isMenuDown)
     return (
       <div>
         <div>
           <Header {...(this.props as any) }/>
           <main>
-            <div className={styles.container} >{this.props.children}</div>
+            <div className={this.props.mainStorage.isMenuDown ? styles.container : ""} >{this.props.children}</div>
           </main>
         </div>
       </div>
