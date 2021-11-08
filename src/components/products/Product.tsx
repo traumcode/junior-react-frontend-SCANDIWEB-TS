@@ -8,7 +8,7 @@ export const currencyToSign = {
   JPY: "¥",
   RUB: "₽",
   USD: "$",
-} as const
+} as const;
 
 export const getPrice = (prices = [], currency = "USD") => {
   let price = prices.find((item) => item.currency === currency);
@@ -18,11 +18,8 @@ export const getPrice = (prices = [], currency = "USD") => {
 
 export default class Product extends React.Component<any> {
   render() {
-
     return (
-      <div
-        className={`${!this.props.inStock ? styles.productIsOutOfStock : ""} ${styles.productCard}`}
-      >
+      <div className={`${!this.props.inStock ? styles.productIsOutOfStock : ""} ${styles.productCard}`}>
         <Link
           className={styles.link}
           to={{
@@ -37,7 +34,6 @@ export default class Product extends React.Component<any> {
             <h3 className={`${!this.props.inStock ? styles.textOutOfStock : styles.productHide}`}>OUT OF STOCK</h3>
           </div>
           <div className={styles.cardContent}>
-            
             <h3 className={styles.productTitle}>{this.props.name}</h3>
             <h3 className={styles.productPrice}>{getPrice(this.props?.prices, this.props.currency)}</h3>
           </div>

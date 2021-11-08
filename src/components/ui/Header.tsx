@@ -183,7 +183,7 @@ export default class Header extends React.Component<
               <div className={styles.itemsContainer}>
                 {this.props.mainStorage?.cartProducts?.map((product, index) => {
                   let count = 0;
-                  total += (product.prices*product.amount)
+                  total += product.prices * product.amount;
 
                   return (
                     <div key={index}>
@@ -197,18 +197,25 @@ export default class Header extends React.Component<
                         </div>
                         <div className={styles.itemQuantity}>
                           <div>
-                            <button onClick={()=> incrementAmount(
-                          product.id,
-                          this?.props?.mainStorage?.cartProducts,
-                          product.activeAttributes,
-                          product.price,
-                          product.name,
-                          product.brand,
-                          product.gallery,
-                          product.attributes,
-                          product.inStock,
-                          product.price
-                        )} className={styles.buttonQuantity}>+</button>
+                            <button
+                              onClick={() =>
+                                incrementAmount(
+                                  product.id,
+                                  this?.props?.mainStorage?.cartProducts,
+                                  product.activeAttributes,
+                                  product.price,
+                                  product.name,
+                                  product.brand,
+                                  product.gallery,
+                                  product.attributes,
+                                  product.inStock,
+                                  product.price
+                                )
+                              }
+                              className={styles.buttonQuantity}
+                            >
+                              +
+                            </button>
                           </div>
                           <div>{product.amount}</div>
                           <div>
@@ -236,11 +243,16 @@ export default class Header extends React.Component<
                 </div>
                 <div className={styles.dropDownShoppingCartButtonContainer}>
                   <div>
-                    <Link to={{ pathname:"/cart"}}>
-                      <button onClick={() => {
-                        setMainStorage({ isMenuDown: !this.props.mainStorage.isMenuDown });
-                        this.setState({ isCartMenuDown: !this.state.isCartMenuDown });
-                      }} className={styles.viewBag}>VIEW BAG</button>
+                    <Link to={{ pathname: "/cart" }}>
+                      <button
+                        onClick={() => {
+                          setMainStorage({ isMenuDown: !this.props.mainStorage.isMenuDown });
+                          this.setState({ isCartMenuDown: !this.state.isCartMenuDown });
+                        }}
+                        className={styles.viewBag}
+                      >
+                        VIEW BAG
+                      </button>
                     </Link>
                   </div>
                   <div>
