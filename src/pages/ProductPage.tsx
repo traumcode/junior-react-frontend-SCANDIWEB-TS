@@ -6,14 +6,15 @@ import { getPrice } from "../components/products/Product";
 import { CommonProps, setMainStorage } from "../App";
 import { RouteComponentProps, StaticContext } from "react-router";
 
-type State = any & Partial<{
-  modalState: boolean;
-  isLoading: boolean;
-  bigImage: number;
-  activeAttributes: object;
-  inCart: number;
-  id: string;
-}>;
+type State = any &
+  Partial<{
+    modalState: boolean;
+    isLoading: boolean;
+    bigImage: number;
+    activeAttributes: object;
+    inCart: number;
+    id: string;
+  }>;
 
 export default class ProductPage extends Component<
   CommonProps &
@@ -85,26 +86,53 @@ export default class ProductPage extends Component<
     this._isMounted = false;
   }
 
-  buttonHandler(activeAttributes, productAttribute) {
+  buttonHandler(activeAttributes, productAttribute, productId) {
     if (activeAttributes === productAttribute) {
       
-      setMainStorage({
-        cartProducts: [
-          ...(this.props.mainStorage.cartProducts || []),
-          {
-            id: this.state.id,
-            amount: 1,
-            activeAttributes: this.state.activeAttributes,
-            prices:parseInt(getPrice(this.state?.prices, "USD").split("$ ")[1]),
-            price:this.state.prices,
-            name: this.state.name,
-            brand: this.state.brand,
-            gallery: this.state.gallery,
-            attributes:this.state.attributes,
-            inStock:true,
-          },
-        ],
-      });
+      if (this.props.mainStorage?.cartProducts?.find((id) => id.id === productId)) {
+        let newState:any = []
+        newState = this.props.mainStorage?.cartProducts.filter((id) => id.id !== productId) || {};
+        let amount = this.props.mainStorage?.cartProducts.filter((id) => id.id === productId)[0].amount;
+        amount += 1;
+
+        setMainStorage({
+          cartProducts: [
+            ...(newState || []),
+
+            {
+              id: this.state.id,
+              amount: amount,
+              activeAttributes: this.state.activeAttributes,
+              prices: parseInt(getPrice(this.state?.prices, "USD").split("$ ")[1]),
+              price: this.state.prices,
+              name: this.state.name,
+              brand: this.state.brand,
+              gallery: this.state.gallery,
+              attributes: this.state.attributes,
+              inStock: true,
+            },
+          ],
+        });
+      } else {
+        console.log("not found");
+        setMainStorage({
+          cartProducts: [
+            ...(this.props.mainStorage.cartProducts || []),
+            {
+              id: this.state.id,
+              amount: 1,
+              activeAttributes: this.state.activeAttributes,
+              prices: parseInt(getPrice(this.state?.prices, "USD").split("$ ")[1]),
+              price: this.state.prices,
+              name: this.state.name,
+              brand: this.state.brand,
+              gallery: this.state.gallery,
+              attributes: this.state.attributes,
+              inStock: true,
+            },
+          ],
+        });
+      }
     } else {
       this.setState({ modalState: true });
     }
@@ -118,13 +146,7 @@ export default class ProductPage extends Component<
         <div className={styles.productPhotosLeft}>
           {this.state?.gallery?.map((photo, index) => {
             return (
-              <img
-                key={index}
-                onClick={() => this.setState({ bigImage: index })}
-                className={styles.smallImage}
-                alt="product"
-                src={photo}
-              />
+              <img key={index} onClick={() => this.setState({ bigImage: index })} className={styles.smallImage} alt="product" src={photo} />
             );
           })}
         </div>
@@ -195,9 +217,7 @@ export default class ProductPage extends Component<
                                   }}
                                   className={styles.attributeValueContainer}
                                   style={
-                                    item.value === activeAttributes?.[attribute.name]
-                                      ? { backgroundColor: "black", color: "white" }
-                                      : {}
+                                    item.value === activeAttributes?.[attribute.name] ? { backgroundColor: "black", color: "white" } : {}
                                   }
                                 >
                                   <label key={index} htmlFor={this.state.name}>
@@ -220,10 +240,7 @@ export default class ProductPage extends Component<
             {this.state.inStock ? (
               <button
                 onClick={() => {
-                  this.buttonHandler(
-                    Object?.getOwnPropertyNames(activeAttributes).length,
-                    this.state.attributes.length
-                  );
+                  this.buttonHandler(Object?.getOwnPropertyNames(activeAttributes).length, this.state.attributes.length, this.state.id);
                 }}
                 className={styles.buttonCart}
               >
@@ -238,11 +255,7 @@ export default class ProductPage extends Component<
           </div>
         </div>
 
-        <div
-          id="myModal"
-          className={styles.modal}
-          style={this.state.modalState === true ? { display: "block" } : { display: "none" }}
-        >
+        <div id="myModal" className={styles.modal} style={this.state.modalState === true ? { display: "block" } : { display: "none" }}>
           <div className={styles.modalContent}>
             <div className={styles.modalHeader}>
               <span onClick={() => this.setState({ modalState: false })} className={styles.close}>

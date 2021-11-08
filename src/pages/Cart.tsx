@@ -64,29 +64,27 @@ export default class Cart extends React.Component<CommonProps> {
           </div>
 
           {(this.props?.mainStorage?.cartProducts || []).map((product, index) => {
-            console.log(product);
-
-            return (
-              <div className={styles.productContainer}>
-                <div className={styles.titlePriceAttributeContainer}>
-                  <div className={styles.name}>
-                    <h3>{product.name}</h3>
+              return (
+                <div key={index} className={styles.productContainer}>
+                  <div className={styles.titlePriceAttributeContainer}>
+                    <div className={styles.name}>
+                      <h3>{product.name}</h3>
+                    </div>
+                    <div className={styles.brand}>{product.brand}</div>
+                    <div className={styles.price}>$ {product.prices * product.amount} </div>
                   </div>
-                  <div className={styles.brand}>{product.brand}</div>
-                  <div className={styles.price}>$ {product.prices}</div>
+                  <div className={styles.quantityPhotoContainer}>
+                    <div className={styles.quantityContainer}>
+                      <div className={styles.plus}>+</div>
+                      <div className={styles.quantity}>{product.amount}</div>
+                      <div className={styles.minus}>-</div>
+                    </div>
+                    <div className={styles.photoContainer}>
+                      <img className={styles.photo} src={product.gallery[0]} alt={product.name}></img>
+                    </div>
+                  </div>
                 </div>
-                <div className={styles.quantityPhotoContainer}>
-                  <div className={styles.quantityContainer}>
-                    <div className={styles.plus}>+</div>
-                    <div className={styles.quantity}>1</div>
-                    <div className={styles.minus}>-</div>
-                  </div>
-                  <div className={styles.photoContainer}>
-                    <img className={styles.photo} src={product.gallery[0]} alt={product.name}></img>
-                  </div>
-                </div>
-              </div>
-            );
+              );
           })}
         </div>
       </div>

@@ -12,7 +12,6 @@ import { currencyToSign } from "./components/products/Product";
 export function setMainStorage(Obj) {
   const mainStorage = JSON.parse(localStorage.getItem("mainStorage") || "{}");
   const newState = { ...mainStorage, ...Obj };
-  console.log(newState);
   localStorage.setItem("mainStorage", JSON.stringify(newState));
   window.dispatchEvent(new Event("storage"));
 }
@@ -47,7 +46,9 @@ export type PersistedState = Partial<{
     inStock:boolean;
     attributes:any;
     price:any;
+    newState:any
   }[];
+  newState:any
 }>;
 
 export type CommonProps = {

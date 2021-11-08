@@ -250,13 +250,14 @@ export default class Header extends React.Component<
                             {product.name}
                             {product.brand}
                           </div>
-                          <div className={styles.price}>$ {product.prices}</div>
+                          <div className={styles.price}>$ sdfsfds{product.prices}</div>
                         </div>
                         <div className={styles.itemQuantity}>
                           <div>
                             <button className={styles.buttonQuantity}>+</button>
                           </div>
-                          <div>1</div>
+                          
+                          <div>{product.amount}</div>
                           <div>
                             <button className={styles.buttonQuantity}>-</button>
                           </div>
