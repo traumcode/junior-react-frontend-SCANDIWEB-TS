@@ -3,6 +3,62 @@ import { CommonProps } from "../App";
 import Product from "../components/products/Product";
 import { PRODUCT_BY_ID } from "../graphQL/Queries";
 import styles from "./Cart.module.css";
+import { setMainStorage } from "../App";
+import { getPrice } from "../components/products/Product";
+
+export function incrementAmount(productId, cartProducts, activeAttributes, prices, name, brand, gallery, attributes, inStock, price) {
+  if (cartProducts.find((id) => id.id === productId)) {
+    let newState: any = [];
+    newState = cartProducts.filter((id) => id.id !== productId) || {};
+    let amount = cartProducts.filter((id) => id.id === productId)[0].amount;
+    amount += 1;
+
+    setMainStorage({
+      cartProducts: [
+        {
+          id: productId,
+          amount: amount,
+          activeAttributes: activeAttributes,
+          prices: parseInt(getPrice(price, "USD").split("$ ")[1]),
+          price: prices,
+          name: name,
+          brand: brand,
+          gallery: gallery,
+          attributes: attributes,
+          inStock: true,
+        },
+        ...(newState || []),
+      ],
+    });
+  }
+}
+export function decrementAmount(productId, cartProducts, activeAttributes, prices, name, brand, gallery, attributes, inStock, price) {
+  if (cartProducts.find((id) => id.id === productId)) {
+    let newState: any = [];
+    newState = cartProducts.filter((id) => id.id !== productId) || {};
+    let amount = cartProducts.filter((id) => id.id === productId)[0].amount;
+    amount -= 1;
+
+    setMainStorage({
+      cartProducts: [
+        ...(newState || []),
+
+        {
+          id: productId,
+          amount: amount,
+          activeAttributes: activeAttributes,
+          prices: parseInt(getPrice(price, "USD").split("$ ")[1]),
+          price: prices,
+          name: name,
+          brand: brand,
+          gallery: gallery,
+          attributes: attributes,
+          inStock: true,
+        },
+      ],
+    });
+  }
+}
 
 export default class Cart extends React.Component<CommonProps> {
   state = {
@@ -64,27 +120,65 @@ export default class Cart extends React.Component<CommonProps> {
           </div>
 
           {(this.props?.mainStorage?.cartProducts || []).map((product, index) => {
-              return (
-                <div key={index} className={styles.productContainer}>
-                  <div className={styles.titlePriceAttributeContainer}>
-                    <div className={styles.name}>
-                      <h3>{product.name}</h3>
-                    </div>
-                    <div className={styles.brand}>{product.brand}</div>
-                    <div className={styles.price}>$ {product.prices * product.amount} </div>
+            console.log(product);
+
+            return (
+              <div key={index} className={styles.productContainer}>
+                <div className={styles.titlePriceAttributeContainer}>
+                  <div className={styles.name}>
+                    <h3>{product.name}</h3>
                   </div>
-                  <div className={styles.quantityPhotoContainer}>
-                    <div className={styles.quantityContainer}>
-                      <div className={styles.plus}>+</div>
-                      <div className={styles.quantity}>{product.amount}</div>
-                      <div className={styles.minus}>-</div>
+                  <div className={styles.brand}>{product.brand}</div>
+                  <div className={styles.price}>$ {product.prices * product.amount} </div>
+                </div>
+                <div className={styles.quantityPhotoContainer}>
+                  <div className={styles.quantityContainer}>
+                    <div
+                      onClick={() =>
+                        incrementAmount(
+                          product.id,
+                          this?.props?.mainStorage?.cartProducts,
+                          product.activeAttributes,
+                          product.price,
+                          product.name,
+                          product.brand,
+                          product.gallery,
+                          product.attributes,
+                          product.inStock,
+                          product.price
+                        )
+                      }
+                      className={styles.plus}
+                    >
+                      +
                     </div>
-                    <div className={styles.photoContainer}>
-                      <img className={styles.photo} src={product.gallery[0]} alt={product.name}></img>
+                    <div className={styles.quantity}>{product.amount}</div>
+                    <div
+                      onClick={() =>
+                        decrementAmount(
+                          product.id,
+                          this?.props?.mainStorage?.cartProducts,
+                          product.activeAttributes,
+                          product.price,
+                          product.name,
+                          product.brand,
+                          product.gallery,
+                          product.attributes,
+                          product.inStock,
+                          product.price
+                        )
+                      }
+                      className={styles.minus}
+                    >
+                      -
                     </div>
+                  </div>
+                  <div className={styles.photoContainer}>
+                    <img className={styles.photo} src={product.gallery[0]} alt={product.name}></img>
                   </div>
                 </div>
-              );
+              </div>
+            );
           })}
         </div>
       </div>

@@ -114,7 +114,6 @@ export default class ProductPage extends Component<
           ],
         });
       } else {
-        console.log("not found");
         setMainStorage({
           cartProducts: [
             ...(this.props.mainStorage.cartProducts || []),

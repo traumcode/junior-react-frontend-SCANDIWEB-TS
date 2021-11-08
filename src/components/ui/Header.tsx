@@ -7,6 +7,7 @@ import { ReactComponent as BrandSvg } from "../../resources/brand.svg";
 import { ReactComponent as CartSvg } from "../../resources/cart.svg";
 import { CommonProps, setMainStorage } from "../../App";
 import { RouteComponentProps, StaticContext } from "react-router";
+import { incrementAmount } from "../../pages/Cart";
 
 import { LOAD_CATEGORIES } from "../../graphQL/Queries";
 
@@ -80,6 +81,7 @@ export default class Header extends React.Component<
   }
 
   render() {
+    let total = 0;
     return (
       <div>
         <Head>
@@ -181,6 +183,7 @@ export default class Header extends React.Component<
               <div className={styles.itemsContainer}>
                 {this.props.mainStorage?.cartProducts?.map((product, index) => {
                   let count = 0;
+                  total += (product.prices*product.amount)
 
                   return (
                     <div key={index}>
@@ -190,13 +193,24 @@ export default class Header extends React.Component<
                             {product.name}
                             {product.brand}
                           </div>
-                          <div className={styles.price}>$ {product.prices}</div>
+                          <div className={styles.price}>$ {product.prices * product.amount}</div>
                         </div>
                         <div className={styles.itemQuantity}>
                           <div>
-                            <button className={styles.buttonQuantity}>+</button>
+                            <button onClick={()=> incrementAmount(
+                          product.id,
+                          this?.props?.mainStorage?.cartProducts,
+                          product.activeAttributes,
+                          product.price,
+                          product.name,
+                          product.brand,
+                          product.gallery,
+                          product.attributes,
+                          product.inStock,
+                          product.price
+                        )} className={styles.buttonQuantity}>+</button>
                           </div>
-                          <div>1</div>
+                          <div>{product.amount}</div>
                           <div>
                             <button className={styles.buttonQuantity}>-</button>
                           </div>
@@ -218,7 +232,7 @@ export default class Header extends React.Component<
               <div className={styles.bottomContainer}>
                 <div className={styles.totalPriceContainer}>
                   <h3 className={styles.totalPrice}>Total</h3>
-                  <h3 className={styles.totalPrice}>$ {this.calculateTotal()}</h3>
+                  <h3 className={styles.totalPrice}>$ {total}</h3>
                 </div>
                 <div className={styles.dropDownShoppingCartButtonContainer}>
                   <div>
@@ -238,34 +252,7 @@ export default class Header extends React.Component<
           ) : (
             <div className={styles.dropDownShoppingCart}>
               <div className={styles.dropDownShoppingCartTitle}>
-                <h3>0 {this.props.mainStorage.cartProducts?.length} items</h3>
-              </div>
-              <div className={styles.itemsContainer}>
-                {this.props.mainStorage?.cartProducts?.map((product, index) => {
-                  return (
-                    <div key={index}>
-                      <div className={styles.dropDownShoppingCartItemContainer}>
-                        <div className={styles.itemNamePrice}>
-                          <div className={styles.name}>
-                            {product.name}
-                            {product.brand}
-                          </div>
-                          <div className={styles.price}>$ sdfsfds{product.prices}</div>
-                        </div>
-                        <div className={styles.itemQuantity}>
-                          <div>
-                            <button className={styles.buttonQuantity}>+</button>
-                          </div>
-                          
-                          <div>{product.amount}</div>
-                          <div>
-                            <button className={styles.buttonQuantity}>-</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
+                <h3>0 items</h3>
               </div>
             </div>
           )
