@@ -8,6 +8,18 @@ In order to run this project you will need to install all the dependencies using
 npm install
 ```
 
+--
+It's almost 100% functional and almost 100% as per design.Everything is implemented as asked, I have the ability to add product, you CANNOT add if you don;t select all the attributes (an error will appear as a modal window) 
+
+I also implemented a loading bar that I made in css.
+
+Product List & Product Page are provided..
+
+The attributes are displayed
+
+The layout is the same as in Figma
+
+If you change the currency, the price will change on the product listing page and in the product page as well.
 
 
 ## Welcome to Scandiweb Junior Developer test assignment!
