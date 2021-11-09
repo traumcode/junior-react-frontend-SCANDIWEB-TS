@@ -7,6 +7,7 @@ import { setMainStorage } from "../App";
 import { getPrice } from "../components/products/Product";
 
 export function incrementAmount(productId, cartProducts, activeAttributes, prices, name, brand, gallery, attributes, inStock, price) {
+  const product = cartProducts.find(({id}) => id === productId)
   if (cartProducts.find((id) => id.id === productId)) {
     let newState: any = [];
     newState = cartProducts.filter((id) => id.id !== productId) || {};
@@ -119,7 +120,7 @@ export default class Cart extends React.Component<CommonProps> {
             <h2 className={styles.categoryName}>CART</h2>
           </div>
 
-          {(this.props?.mainStorage?.cartProducts || []).map((product, index) => {
+          {(this.props?.mainStorage?.cartProducts || []).sort((a,b) => a.id.localeCompare(b.id)).map((product, index) => {
             console.log(product);
 
             return (

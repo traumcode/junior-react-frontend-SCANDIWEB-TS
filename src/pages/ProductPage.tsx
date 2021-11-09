@@ -88,13 +88,13 @@ export default class ProductPage extends Component<
 
   buttonHandler(activeAttributes, productAttribute, productId) {
     if (activeAttributes === productAttribute) {
-      
       if (this.props.mainStorage?.cartProducts?.find((id) => id.id === productId)) {
-        let newState:any = []
+        console.log("found");
+
+        let newState: any = [];
         newState = this.props.mainStorage?.cartProducts.filter((id) => id.id !== productId) || {};
         let amount = this.props.mainStorage?.cartProducts.filter((id) => id.id === productId)[0].amount;
         amount += 1;
-
         setMainStorage({
           cartProducts: [
             ...(newState || []),
@@ -111,7 +111,9 @@ export default class ProductPage extends Component<
               attributes: this.state.attributes,
               inStock: true,
             },
-          ],
+          ].sort((a, b) => {
+            return a.id.localeCompare(b.id);
+          }),
         });
       } else {
         setMainStorage({

@@ -87,6 +87,7 @@ export default class App extends React.Component<Props, State> {
 
   componentWillUnmount() {
     this._isMounted = false;
+    
   }
 
   render() {
