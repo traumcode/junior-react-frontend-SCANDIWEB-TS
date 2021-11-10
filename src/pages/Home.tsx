@@ -66,13 +66,13 @@ export default class Home extends React.Component<CommonProps, State> {
             return (
               <Product
                 key={index}
+                brand={product.brand}
                 id={product.id}
                 inStock={product.inStock}
                 prices={product.prices}
                 currency={this.props.mainStorage.currency}
                 image={product.gallery[0]}
                 name={product.name}
-                attributes={product.attributes}
               ></Product>
             );
           }
@@ -85,13 +85,13 @@ export default class Home extends React.Component<CommonProps, State> {
         return (
           <Product
             key={index}
+            brand={product.brand}
             id={product.id}
             inStock={product.inStock}
             prices={product.prices}
             currency={this.props.mainStorage.currency}
             image={product.gallery[0]}
             name={product.name}
-            attributes={product.attributes}
           ></Product>
         );
       });

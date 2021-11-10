@@ -6,10 +6,10 @@ import { currencyToSign } from "../products/Product";
 import { ReactComponent as BrandSvg } from "../../resources/brand.svg";
 import { ReactComponent as CartSvg } from "../../resources/cart.svg";
 import { CommonProps, setMainStorage } from "../../App";
-import { RouteComponentProps, StaticContext } from "react-router";
-import { incrementAmount } from "../../pages/Cart";
 
 import { LOAD_CATEGORIES } from "../../graphQL/Queries";
+import { LayoutState } from "./Layout";
+import ProductItem from "../products/ProductItem";
 
 const Head = styled.div`
   height: 80px;
@@ -40,17 +40,23 @@ const CategoryButton = styled.button`
   cursor: pointer;
 `;
 
+type State = {
+  cartInfo: any;
+  cartTotal: number;
+  result?: any;
+  prices?: Record<string, number>;
+};
+
 export default class Header extends React.Component<
-  CommonProps & RouteComponentProps<{ [x: string]: string }, StaticContext, unknown>,
-  any
+  CommonProps & Pick<LayoutState, "show"> & { setShow: (show: LayoutState["show"]) => any },
+  State
 > {
   constructor(props) {
     super(props);
     this.state = {
-      isCurrencyMenuDown: false,
-      isCartMenuDown: false,
       cartInfo: {},
       cartTotal: 0,
+      prices: {},
     };
   }
   _isMounted = true;
@@ -98,6 +104,7 @@ export default class Header extends React.Component<
                   <CategoryButton
                     onClick={() => {
                       setMainStorage({ category: "home" });
+                      this.props.setShow(null);
                     }}
                   >
                     HOME
@@ -118,6 +125,7 @@ export default class Header extends React.Component<
                       <CategoryButton
                         onClick={() => {
                           setMainStorage({ category: category.name });
+                          this.props.setShow(null);
                         }}
                       >
                         {category.name.toUpperCase()}
@@ -134,111 +142,89 @@ export default class Header extends React.Component<
           <div className={styles.shoppingCartAndCurrencyContainer}>
             <div className={styles.smallContainer}>
               <div className={styles.currencyButtonContainer}>
-                <button
-                  className={styles.currencyButton}
-                  onClick={() => this.setState({ isCurrencyMenuDown: !this.state.isCurrencyMenuDown })}
-                >
+                <button className={styles.currencyButton} onClick={() => this.props.setShow("currency")}>
                   <h3>{currencyToSign[this.props.mainStorage?.currency] || "$"}</h3>
                 </button>
-                <div className={styles.currencyContent}>
-                  {Object.keys(currencyToSign).map((currency, index) => {
-                    return (
-                      <button
-                        key={index}
-                        className={styles.currencyButton}
-                        onClick={() => {
-                          setMainStorage({ currency });
-                        }}
-                      >
-                        <h3 className={styles.currencyButtonText}>
-                          {currencyToSign[currency]}
-                          {currency}
-                        </h3>
-                      </button>
-                    );
-                  })}
-                </div>
+                {this.props.show === "currency" ? (
+                  <div className={styles.currencyContent}>
+                    {Object.keys(currencyToSign).map((currency, index) => {
+                      return (
+                        <button
+                          key={index}
+                          className={styles.currencyButton}
+                          onClick={() => {
+                            setMainStorage({ currency });
+                            this.props.setShow(null);
+                          }}
+                        >
+                          <h3 className={styles.currencyButtonText}>
+                            {currencyToSign[currency]}
+                            {currency}
+                          </h3>
+                        </button>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  ""
+                )}
               </div>
               <div
                 onClick={() => {
-                  setMainStorage({ isMenuDown: !this.props.mainStorage.isMenuDown });
-                  this.setState({ isCartMenuDown: !this.state.isCartMenuDown });
+                  this.props.setShow(this.props.show === "cart" ? null : "cart");
                 }}
                 className={styles.shoppingCartButtonContainer}
               >
                 <button className={styles.shoppingCartButton}>
                   <CartSvg />
-                  <span className={styles.totalItems}>{this.props.mainStorage?.cartProducts?.length || 0}</span>
+                  <span className={styles.totalItems}>{this.props.mainStorage.cartProducts?.reduce((a, v) => a + v.amount, 0) || 0}</span>
                 </button>
               </div>
             </div>
           </div>
         </Head>
-        {this.state.isCartMenuDown ? (
+        {this.props.show === "cart" ? (
           this.props.mainStorage?.cartProducts?.length ? (
             <div className={styles.dropDownShoppingCart}>
               <div className={styles.dropDownShoppingCartTitle}>
-                <h3>My Bag, {this.props.mainStorage.cartProducts?.length} items</h3>
+                <h3>My Bag, {this.props.mainStorage.cartProducts?.reduce((a, v) => a + v.amount, 0)} items</h3>
               </div>
               <div className={styles.itemsContainer}>
-                {this.props.mainStorage?.cartProducts?.map((product, index) => {
-                  let count = 0;
-                  total += product.prices * product.amount;
+                {this.props.mainStorage?.cartProducts
+                  ?.sort((a, b) => a.id.localeCompare(b.id))
+                  .map((product, index) => {
+                    total += product.prices * product.amount;
 
-                  return (
-                    <div key={index}>
-                      <div className={styles.dropDownShoppingCartItemContainer}>
-                        <div className={styles.itemNamePrice}>
-                          <div className={styles.name}>
-                            {product.name}
-                            {product.brand}
-                          </div>
-                          <div className={styles.price}>$ {product.prices * product.amount}</div>
-                        </div>
-                        <div className={styles.itemQuantity}>
-                          <div>
-                            <button
-                              onClick={() =>
-                                incrementAmount(
-                                  product.id,
-                                  this?.props?.mainStorage?.cartProducts,
-                                  product.activeAttributes,
-                                  product.price,
-                                  product.name,
-                                  product.brand,
-                                  product.gallery,
-                                  product.attributes,
-                                  product.inStock,
-                                  product.price
-                                )
-                              }
-                              className={styles.buttonQuantity}
-                            >
-                              +
-                            </button>
-                          </div>
-                          <div>{product.amount}</div>
-                          <div>
-                            <button className={styles.buttonQuantity}>-</button>
-                          </div>
-                        </div>
-                        <div className={styles.itemImage}>
-                          {product?.gallery?.map((photo) => {
-                            if (count === 0) {
-                              count += 1;
-                              return <img className={styles.image} src={photo} alt={product.name}></img>;
-                            }
-                            return null;
-                          })}
-                        </div>
+                    return (
+                      <div key={index}>
+                        <ProductItem
+                          key={index}
+                          {...this.props}
+                          id={product.id}
+                          amount={product.amount}
+                          activeAttributes={product.activeAttributes}
+                          mode={"cart"}
+                          onFetch={(product, price) => {
+                            this.setState({
+                              prices: {
+                                ...this.state.prices,
+                                [index]: price,
+                              },
+                            });
+                          }}
+                        ></ProductItem>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
               </div>
               <div className={styles.bottomContainer}>
                 <div className={styles.totalPriceContainer}>
                   <h3 className={styles.totalPrice}>Total</h3>
+                  <h3>
+                    {Object.values(this.state.prices)
+                      .reduce((a, v) => a + v, 0)
+                      .toFixed(2)}
+                  </h3>
                   <h3 className={styles.totalPrice}>$ {total}</h3>
                 </div>
                 <div className={styles.dropDownShoppingCartButtonContainer}>
@@ -246,8 +232,8 @@ export default class Header extends React.Component<
                     <Link to={{ pathname: "/cart" }}>
                       <button
                         onClick={() => {
-                          setMainStorage({ isMenuDown: !this.props.mainStorage.isMenuDown });
-                          this.setState({ isCartMenuDown: !this.state.isCartMenuDown });
+                          this.props.setShow(null);
+                          setMainStorage({ category: "" });
                         }}
                         className={styles.viewBag}
                       >

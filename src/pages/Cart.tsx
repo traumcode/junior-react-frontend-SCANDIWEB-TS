@@ -5,9 +5,10 @@ import { PRODUCT_BY_ID } from "../graphQL/Queries";
 import styles from "./Cart.module.css";
 import { setMainStorage } from "../App";
 import { getPrice } from "../components/products/Product";
+import ProductItem from "../components/products/ProductItem";
 
 export function incrementAmount(productId, cartProducts, activeAttributes, prices, name, brand, gallery, attributes, inStock, price) {
-  const product = cartProducts.find(({id}) => id === productId)
+  const product = cartProducts.find(({ id }) => id === productId);
   if (cartProducts.find((id) => id.id === productId)) {
     let newState: any = [];
     newState = cartProducts.filter((id) => id.id !== productId) || {};
@@ -40,24 +41,30 @@ export function decrementAmount(productId, cartProducts, activeAttributes, price
     let amount = cartProducts.filter((id) => id.id === productId)[0].amount;
     amount -= 1;
 
-    setMainStorage({
-      cartProducts: [
-        ...(newState || []),
+    if (amount <= 0) {
+      setMainStorage({
+        cartProducts: [...(newState || [])],
+      });
+    } else {
+      setMainStorage({
+        cartProducts: [
+          ...(newState || []),
 
-        {
-          id: productId,
-          amount: amount,
-          activeAttributes: activeAttributes,
-          prices: parseInt(getPrice(price, "USD").split("$ ")[1]),
-          price: prices,
-          name: name,
-          brand: brand,
-          gallery: gallery,
-          attributes: attributes,
-          inStock: true,
-        },
-      ],
-    });
+          {
+            id: productId,
+            amount: amount,
+            activeAttributes: activeAttributes,
+            prices: parseInt(getPrice(price, "USD").split("$ ")[1]),
+            price: prices,
+            name: name,
+            brand: brand,
+            gallery: gallery,
+            attributes: attributes,
+            inStock: true,
+          },
+        ],
+      });
+    }
   }
 }
 
@@ -113,75 +120,28 @@ export default class Cart extends React.Component<CommonProps> {
   }
 
   render() {
+
     return (
-      <div>
-        <div className={styles.mainContainer}>
-          <div className={styles.categoryNameContainer}>
-            <h2 className={styles.categoryName}>CART</h2>
-          </div>
+      <div className={styles.mainContainer}>
+        <div className={styles.categoryNameContainer}>
+          <h2 className={styles.categoryName}>CART</h2>
+        </div>
 
-          {(this.props?.mainStorage?.cartProducts || []).sort((a,b) => a.id.localeCompare(b.id)).map((product, index) => {
-            console.log(product);
-
+        {(this.props?.mainStorage?.cartProducts || [])
+          .sort((a, b) => a.id.localeCompare(b.id))
+          .map((product, index) => {
             return (
-              <div key={index} className={styles.productContainer}>
-                <div className={styles.titlePriceAttributeContainer}>
-                  <div className={styles.name}>
-                    <h3>{product.name}</h3>
-                  </div>
-                  <div className={styles.brand}>{product.brand}</div>
-                  <div className={styles.price}>$ {product.prices * product.amount} </div>
-                </div>
-                <div className={styles.quantityPhotoContainer}>
-                  <div className={styles.quantityContainer}>
-                    <div
-                      onClick={() =>
-                        incrementAmount(
-                          product.id,
-                          this?.props?.mainStorage?.cartProducts,
-                          product.activeAttributes,
-                          product.price,
-                          product.name,
-                          product.brand,
-                          product.gallery,
-                          product.attributes,
-                          product.inStock,
-                          product.price
-                        )
-                      }
-                      className={styles.plus}
-                    >
-                      +
-                    </div>
-                    <div className={styles.quantity}>{product.amount}</div>
-                    <div
-                      onClick={() =>
-                        decrementAmount(
-                          product.id,
-                          this?.props?.mainStorage?.cartProducts,
-                          product.activeAttributes,
-                          product.price,
-                          product.name,
-                          product.brand,
-                          product.gallery,
-                          product.attributes,
-                          product.inStock,
-                          product.price
-                        )
-                      }
-                      className={styles.minus}
-                    >
-                      -
-                    </div>
-                  </div>
-                  <div className={styles.photoContainer}>
-                    <img className={styles.photo} src={product.gallery[0]} alt={product.name}></img>
-                  </div>
-                </div>
-              </div>
+              <ProductItem
+                key={index}
+                id={product.id}
+                mode={"cart" as any}
+                client={this.props.client}
+                mainStorage={this.props.mainStorage}
+                activeAttributes={product.activeAttributes}
+                amount={product.amount}
+              />
             );
           })}
-        </div>
       </div>
     );
   }

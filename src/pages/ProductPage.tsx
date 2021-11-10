@@ -5,6 +5,7 @@ import sanitizeHtml from "sanitize-html";
 import { getPrice } from "../components/products/Product";
 import { CommonProps, setMainStorage } from "../App";
 import { RouteComponentProps, StaticContext } from "react-router";
+import { getCartProuctIndex } from "../components/products/ProductItem";
 
 type State = any &
   Partial<{
@@ -86,54 +87,21 @@ export default class ProductPage extends Component<
     this._isMounted = false;
   }
 
-  buttonHandler(activeAttributes, productAttribute, productId) {
-    if (activeAttributes === productAttribute) {
-      if (this.props.mainStorage?.cartProducts?.find((id) => id.id === productId)) {
-        console.log("found");
+  buttonHandler(productId) {
+    const { activeAttributes } = this.state;
+    if (Object.keys(activeAttributes).length) {
+      const cartProducts = this.props.mainStorage?.cartProducts || []
+      const productIndex = getCartProuctIndex(activeAttributes,this.props.mainStorage?.cartProducts, productId);
+      const product: any = cartProducts?.[productIndex] || {id:productId, activeAttributes, amount:0, prices: [] };
+      product.amount++;
 
-        let newState: any = [];
-        newState = this.props.mainStorage?.cartProducts.filter((id) => id.id !== productId) || {};
-        let amount = this.props.mainStorage?.cartProducts.filter((id) => id.id === productId)[0].amount;
-        amount += 1;
-        setMainStorage({
-          cartProducts: [
-            ...(newState || []),
-
-            {
-              id: this.state.id,
-              amount: amount,
-              activeAttributes: this.state.activeAttributes,
-              prices: parseInt(getPrice(this.state?.prices, "USD").split("$ ")[1]),
-              price: this.state.prices,
-              name: this.state.name,
-              brand: this.state.brand,
-              gallery: this.state.gallery,
-              attributes: this.state.attributes,
-              inStock: true,
-            },
-          ].sort((a, b) => {
-            return a.id.localeCompare(b.id);
-          }),
-        });
+      if(productIndex > -1) {
+        cartProducts[productIndex] = product
       } else {
-        setMainStorage({
-          cartProducts: [
-            ...(this.props.mainStorage.cartProducts || []),
-            {
-              id: this.state.id,
-              amount: 1,
-              activeAttributes: this.state.activeAttributes,
-              prices: parseInt(getPrice(this.state?.prices, "USD").split("$ ")[1]),
-              price: this.state.prices,
-              name: this.state.name,
-              brand: this.state.brand,
-              gallery: this.state.gallery,
-              attributes: this.state.attributes,
-              inStock: true,
-            },
-          ],
-        });
+        cartProducts.push(product);
+
       }
+      setMainStorage({cartProducts});
     } else {
       this.setState({ modalState: true });
     }
@@ -156,7 +124,7 @@ export default class ProductPage extends Component<
         </div>
         <div className={styles.productDetails}>
           <div className={styles.productTitle}>
-            <h3>Apollo</h3>
+            <h3>{this.state.name}</h3>
           </div>
           <div className={styles.productBrand}>
             <h3 style={{ fontWeight: 400 }}>{this.state.brand}</h3>
@@ -241,7 +209,7 @@ export default class ProductPage extends Component<
             {this.state.inStock ? (
               <button
                 onClick={() => {
-                  this.buttonHandler(Object?.getOwnPropertyNames(activeAttributes).length, this.state.attributes.length, this.state.id);
+                  this.buttonHandler(this.state.id);
                 }}
                 className={styles.buttonCart}
               >

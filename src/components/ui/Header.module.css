@@ -107,7 +107,7 @@
   z-index: 1;
 }
 
-.currencyButtonContainer:hover .currencyContent {
+.currencyButtonContainer .currencyContent {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -145,6 +145,7 @@
 
 .link {
   all: unset;
+  cursor: pointer;
 }
 
 .totalItems {

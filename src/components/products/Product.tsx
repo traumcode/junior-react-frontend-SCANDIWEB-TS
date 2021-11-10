@@ -16,7 +16,15 @@ export const getPrice = (prices = [], currency = "USD") => {
   return currencySign + " " + (price.amount || "?");
 };
 
-export default class Product extends React.Component<any> {
+export default class Product extends React.Component<{ 
+  id: string,
+  brand:string,
+  inStock:boolean,
+  name:string,
+  image:string,
+  prices:any,
+  currency:string,
+}> {
   render() {
     return (
       <div className={`${!this.props.inStock ? styles.productIsOutOfStock : ""} ${styles.productCard}`}>
@@ -35,6 +43,7 @@ export default class Product extends React.Component<any> {
           </div>
           <div className={styles.cardContent}>
             <h3 className={styles.productTitle}>{this.props.name}</h3>
+            <h3 className={styles.productTitle}>{this.props.brand}</h3>
             <h3 className={styles.productPrice}>{getPrice(this.props?.prices, this.props.currency)}</h3>
           </div>
         </Link>

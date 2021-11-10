@@ -30,31 +30,31 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
   link: link,
 });
+export type ActiveAttributes = Record<string, string>;
 
 export type PersistedState = Partial<{
-  isMenuDown:boolean,
-  category: string,
+  isMenuDown: boolean;
+  category: string;
   currency: keyof typeof currencyToSign;
   cartProducts: {
     id: string;
     amount: number;
-    activeAttributes: Record<string, any>;
-    prices:number;
-    name:string;
-    brand:string;
-    gallery:any;
-    inStock:boolean;
-    attributes:any;
-    price:any;
-    newState:any
+    activeAttributes: ActiveAttributes;
+    prices: number;
+    // name: string;
+    // brand: string;
+    // gallery: any;
+    // inStock: boolean;
+    // attributes: any;
+    // price: any;
+    // newState: any;
   }[];
-  newState:any
+  newState: any;
 }>;
 
 export type CommonProps = {
   mainStorage: PersistedState;
   client: ApolloClient<NormalizedCacheObject>;
-  
 };
 
 type Props = {};
@@ -67,16 +67,17 @@ export default class App extends React.Component<Props, State> {
   state: State = {
     mainStorage: {
       currency: undefined,
-      category:undefined,
-      isMenuDown:false
+      category: undefined,
+      isMenuDown: false,
     },
   };
   _isMounted = true;
 
   componentDidMount() {
     window.addEventListener("storage", () => {
-      const mainStorage = JSON.parse(window.localStorage.getItem("mainStorage"));
+      let mainStorage = JSON.parse(window.localStorage.getItem("mainStorage")) || {}
       if (this._isMounted) {
+        mainStorage.currency = mainStorage?.currency || "USD";
         this.setState({
           mainStorage: mainStorage || {},
         });
@@ -87,7 +88,6 @@ export default class App extends React.Component<Props, State> {
 
   componentWillUnmount() {
     this._isMounted = false;
-    
   }
 
   render() {
@@ -108,7 +108,7 @@ export default class App extends React.Component<Props, State> {
               ></Route>
               <Route
                 path={`/product/:id`}
-                render={(props) => <ProductPage {...props} mainStorage={mainStorage} client={client} />}
+                render={(props) => <ProductPage {...props} mainStorage={mainStorage} client={client} key={props.match.params.id} />}
               />
               <Route path={`/cart`} render={(props) => <Cart {...props} mainStorage={mainStorage} client={client} />} />
             </Switch>

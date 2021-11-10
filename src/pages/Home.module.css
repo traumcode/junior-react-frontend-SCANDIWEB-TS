@@ -1,6 +1,6 @@
 .mainContainer {
   margin: 0 100px 0px 100px;
-  height:2000px;
+  min-height: 100vh;
 }
 
 .categoryName {
