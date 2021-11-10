@@ -172,6 +172,7 @@ export default class Header extends React.Component<
               <div
                 onClick={() => {
                   this.props.setShow(this.props.show === "cart" ? null : "cart");
+                  setMainStorage({isCartMode: true})
                 }}
                 className={styles.shoppingCartButtonContainer}
               >
@@ -229,11 +230,11 @@ export default class Header extends React.Component<
                 </div>
                 <div className={styles.dropDownShoppingCartButtonContainer}>
                   <div>
-                    <Link to={{ pathname: "/cart" }}>
+                    <Link to={{ pathname: "/cart", state: {mode:"cart"} }}>
                       <button
                         onClick={() => {
                           this.props.setShow(null);
-                          setMainStorage({ category: "" });
+                          setMainStorage({ category: "" });    
                         }}
                         className={styles.viewBag}
                       >

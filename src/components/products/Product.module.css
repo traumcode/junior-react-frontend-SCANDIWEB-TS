@@ -1,4 +1,5 @@
 .productCard {
+  position: relative;
   width: 386px;
   height: 444px;
   display: flex;
@@ -13,6 +14,19 @@
 .productCard:hover {
   transition: 0.6s;
   box-shadow: 0px 4px 35px rgba(145, 150, 160, 0.19), 0px 4px 35px rgba(116, 119, 128, 0.23);
+}
+
+.cartCircle {
+  position: absolute;
+  right:21px;
+  top:350px;
+  visibility: hidden;
+  cursor: pointer;
+}
+
+
+.productCard:hover .cartCircle {
+visibility: visible;
 }
 
 .imageContainer {

@@ -7,6 +7,7 @@ import { CommonProps, setMainStorage } from "../App";
 import { RouteComponentProps, StaticContext } from "react-router";
 import { getCartProuctIndex } from "../components/products/ProductItem";
 
+
 type State = any &
   Partial<{
     modalState: boolean;
@@ -87,9 +88,10 @@ export default class ProductPage extends Component<
     this._isMounted = false;
   }
 
-  buttonHandler(productId) {
+  buttonHandler(productId) {  
     const { activeAttributes } = this.state;
-    if (Object.keys(activeAttributes).length) {
+
+    if (Object.keys(activeAttributes).length === this.state.attributes.length) {
       const cartProducts = this.props.mainStorage?.cartProducts || []
       const productIndex = getCartProuctIndex(activeAttributes,this.props.mainStorage?.cartProducts, productId);
       const product: any = cartProducts?.[productIndex] || {id:productId, activeAttributes, amount:0, prices: [] };

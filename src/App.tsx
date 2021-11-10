@@ -33,6 +33,7 @@ const client = new ApolloClient({
 export type ActiveAttributes = Record<string, string>;
 
 export type PersistedState = Partial<{
+  isCartMode:boolean;
   isMenuDown: boolean;
   category: string;
   currency: keyof typeof currencyToSign;
@@ -41,13 +42,7 @@ export type PersistedState = Partial<{
     amount: number;
     activeAttributes: ActiveAttributes;
     prices: number;
-    // name: string;
-    // brand: string;
-    // gallery: any;
-    // inStock: boolean;
-    // attributes: any;
-    // price: any;
-    // newState: any;
+
   }[];
   newState: any;
 }>;
@@ -69,13 +64,14 @@ export default class App extends React.Component<Props, State> {
       currency: undefined,
       category: undefined,
       isMenuDown: false,
+      isCartMode:false,
     },
   };
   _isMounted = true;
 
   componentDidMount() {
     window.addEventListener("storage", () => {
-      let mainStorage = JSON.parse(window.localStorage.getItem("mainStorage")) || {}
+      let mainStorage = JSON.parse(window.localStorage.getItem("mainStorage")) || {};
       if (this._isMounted) {
         mainStorage.currency = mainStorage?.currency || "USD";
         this.setState({
@@ -93,10 +89,12 @@ export default class App extends React.Component<Props, State> {
   render() {
     const { mainStorage = {} } = this.state;
 
+
+
     return (
       <ApolloProvider client={client}>
         <Router>
-          <Layout mainStorage={mainStorage} client={client}>
+          <Layout mainStorage={mainStorage} client={client} >
             <Switch>
               <Route path="/" exact>
                 <Home client={client} mainStorage={mainStorage}></Home>

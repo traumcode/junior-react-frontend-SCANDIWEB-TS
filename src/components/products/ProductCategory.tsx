@@ -14,9 +14,10 @@ export default class ProductCategory extends React.Component<
   render() {
     const { activeAttributes, isCartMode } = this.props;
     const styles = isCartMode ? classes : styless
+    
 
     return (
-      <div>
+      <div className={styles.mainAttributeContainer}>
         {this.props?.attributes.length > 0
           ? this.props?.attributes.map((attribute, aindex) => {
               return (
@@ -30,29 +31,16 @@ export default class ProductCategory extends React.Component<
                           return (
                             <div
                               key={index}
+                              className={item.value === activeAttributes?.[attribute.type] ? styles.selectedContainer: ""}
                               onClick={() => {
                                 this.props.setActiveAttributes({ ...activeAttributes, [attribute.name]: item.value })
                               }}
-                              style={
-                                item.value === activeAttributes?.[attribute.type]
-                                  ? {
-                                      border: "1px solid black",
-                                      borderRadius: "50%",
-                                      height: "20px",
-                                      width: "20px",
-                                      marginRight: "10px",
-                                    }
-                                  : {}
-                              }
                             >
                               <label>
                                 <div
                                   className={styles.attributeValueColorContainer}
                                   style={{
-                                    backgroundColor: `${item.value}`,
-                                    height: "20px",
-                                    width: "20px",
-                                    borderRadius: "50%",
+                                    backgroundColor: `${item.value}`
                                   }}
                                 ></div>
                                 <span className={styles.attributeSizeButtonText}></span>

@@ -134,7 +134,7 @@ export default class Cart extends React.Component<CommonProps> {
               <ProductItem
                 key={index}
                 id={product.id}
-                mode={"cart" as any}
+                mode={"view"}
                 client={this.props.client}
                 mainStorage={this.props.mainStorage}
                 activeAttributes={product.activeAttributes}

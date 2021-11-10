@@ -167,7 +167,7 @@
 .dropDownShoppingCart {
   position: absolute;
   width: 325px;
-  height: 540px;
+  height: 560px;
   right: 6%;
   top: 78px;
   background-color: white;
@@ -199,8 +199,8 @@
 
 .dropDownShoppingCartTitle {
   margin-top: 8px;
-  margin-left: 16px;
-  width: 80%;
+  padding-left: 16px;
+  width: 95%;
   height: 26px;
   position: absolute;
   z-index: 1;

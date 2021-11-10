@@ -2,17 +2,30 @@
     font-family: "Roboto Condensed";
     font-style: normal;
     font-weight: 700;
-    font-size: 10px;
+    font-size: 14px;
     line-height: 10px;
+    text-align: center;
   }
   
   .attributeButtonContainer {
     display: flex;
     flex-direction: row;
+    justify-content: center
+  }
+
+  .selectedContainer {
+      border-bottom: 1px solid black;
+      border-radius: 50%;
+      height:20px;
+      width:20px;
+      margin-right: 10px;
   }
   
   .attributeValueColorContainer {
     margin-right: 5px;
+    height:20px;
+    width:20px;
+    border-radius: 50%;
   }
   
   .attributeValueContainer {
@@ -20,8 +33,8 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    width: 33px;
-    height: 15px;
+    width: 43px;
+    height: 30px;
     border: 1px solid black;
     margin-right: 10px;
     margin-bottom: 30px;
@@ -35,3 +48,11 @@
     line-height: 18px;
   }
   
+  .mainAttributeContainer {
+      display: flex;
+      align-items: baseline
+  }
+
+h4 {
+    margin:0
+}

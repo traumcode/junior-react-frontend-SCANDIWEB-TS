@@ -80,11 +80,6 @@ export default class ProductItem extends React.Component<CommonProps & Props, St
     this._isMounted = false;
   }
 
-  /**
-   * cartProducts = [
-   *  { id: "iphone", amount: 1, activeAttributes: { color: "red", size: "64gb" }  }
-   * ]
-   */
 
   getCartProuctIndex(_activeAttributes?: any) {
     const {
@@ -140,18 +135,10 @@ export default class ProductItem extends React.Component<CommonProps & Props, St
 
   render() {
     let count = 0;
-
     const { product } = this.state;
     if (!this.state.product) {
       return null;
     }
-    if (this.props.mode === "view") {
-      return (
-        <div>
-          <Product {...this.state.product}></Product>
-        </div>
-      );
-    } else {
       return (
         <div key={product.id}>
           <div className={styles.dropDownShoppingCartItemContainer}>
@@ -192,7 +179,7 @@ export default class ProductItem extends React.Component<CommonProps & Props, St
             
           </div>
           <ProductCategory
-              isCartMode={false}
+              isCartMode={this.props.mode === "cart"}
               setActiveAttributes={(attributes) => this.setActiveAttributes(attributes)}
               attributes={product.attributes}
               activeAttributes={this.props.activeAttributes}
@@ -201,6 +188,6 @@ export default class ProductItem extends React.Component<CommonProps & Props, St
             />
         </div>
       );
-    }
+    
   }
 }
