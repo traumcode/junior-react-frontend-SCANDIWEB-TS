@@ -61,7 +61,8 @@ export default class Product extends React.Component<{
           </div>
         </Link>
         <div onClick={() => this.addToCard(this.props.id)} className={styles.cardContent}>
-          <CircleCart className={styles.cartCircle}></CircleCart>
+          {this.props.inStock ? <CircleCart className={styles.cartCircle}></CircleCart> : ""}
+          
           <Link
             className={styles.link}
             to={{
