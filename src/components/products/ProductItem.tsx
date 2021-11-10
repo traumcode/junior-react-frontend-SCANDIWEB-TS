@@ -21,17 +21,15 @@ type Props = {
   onFetch?: (product, price) => void;
 };
 
-export function getCartProuctIndex(activeAttributes: any, _cartProducts:any[], id:string) {
-    let cartProducts = _cartProducts?.map(v => ({ ...v })) || [];
-    return cartProducts.findIndex((p) => {
-      return (
-        p.id === id &&
-        !Object.keys(p.activeAttributes).find(
-          (attributeKey) => p.activeAttributes[attributeKey] !== (activeAttributes)[attributeKey]
-        )
-      );
-    });
-  }
+export function getCartProuctIndex(activeAttributes: any, _cartProducts: any[], id: string) {
+  let cartProducts = _cartProducts?.map((v) => ({ ...v })) || [];
+  return cartProducts.findIndex((p) => {
+    return (
+      p.id === id &&
+      !Object.keys(p.activeAttributes).find((attributeKey) => p.activeAttributes[attributeKey] !== activeAttributes[attributeKey])
+    );
+  });
+}
 
 export default class ProductItem extends React.Component<CommonProps & Props, State> {
   state: State = {
@@ -46,8 +44,8 @@ export default class ProductItem extends React.Component<CommonProps & Props, St
       this.setState({ isLoading: false });
     }
 
-    if(prevProps.amount !== this.props.amount){
-      this.props.onFetch?.(this.state.product, this.getPrice(this.state.product.prices))
+    if (prevProps.amount !== this.props.amount) {
+      this.props.onFetch?.(this.state.product, this.getPrice(this.state.product.prices));
     }
   }
   componentDidMount() {
@@ -69,7 +67,7 @@ export default class ProductItem extends React.Component<CommonProps & Props, St
         if (this._isMounted) {
           const product = result.data.product;
           this.setState({ product });
-          this.props.onFetch?.(product, this.getPrice(product.prices))
+          this.props.onFetch?.(product, this.getPrice(product.prices));
         }
         return result;
       })
@@ -79,7 +77,6 @@ export default class ProductItem extends React.Component<CommonProps & Props, St
   componentWillUnmount() {
     this._isMounted = false;
   }
-
 
   getCartProuctIndex(_activeAttributes?: any) {
     const {
@@ -108,7 +105,7 @@ export default class ProductItem extends React.Component<CommonProps & Props, St
       id,
       mainStorage: { cartProducts: _cartProducts = [] },
     } = this.props;
-    let cartProducts = _cartProducts?.map(v => ({ ...v })) || [];
+    let cartProducts = _cartProducts?.map((v) => ({ ...v })) || [];
     const productIndex = this.getCartProuctIndex();
     const duplicateCategoryIndex = this.getCartProuctIndex(activeAttributes);
     const product = cartProducts[productIndex];
@@ -125,12 +122,12 @@ export default class ProductItem extends React.Component<CommonProps & Props, St
     setMainStorage({ cartProducts });
   }
 
-  getPrice(prices){
+  getPrice(prices) {
     return prices.find((price) => price.currency === this.props.mainStorage.currency)?.amount * this.props?.amount;
   }
 
-  getProductPrice(prices){
-      return prices.find((price) => price.currency === this.props.mainStorage.currency)?.amount
+  getProductPrice(prices) {
+    return prices.find((price) => price.currency === this.props.mainStorage.currency)?.amount;
   }
 
   render() {
@@ -139,55 +136,51 @@ export default class ProductItem extends React.Component<CommonProps & Props, St
     if (!this.state.product) {
       return null;
     }
-      return (
-        <div key={product.id}>
-          <div className={styles.dropDownShoppingCartItemContainer}>
-            <div className={styles.itemNamePrice}>
-              <Link className={styles.link} to={{ pathname: `/product/${product.id}` }}>
-                <div className={styles.name}>
-                  {product.name}
-                  {product.brand}
-                </div>
-              </Link>
-              <div className={styles.price}>
-                {this.getProductPrice(product.prices).toFixed(2)}
+    return (
+      <div key={product.id}>
+        <div className={styles.dropDownShoppingCartItemContainer}>
+          <div className={styles.itemNamePrice}>
+            <Link className={styles.link} to={{ pathname: `/product/${product.id}` }}>
+              <div className={styles.name}>
+                {product.name}
+                {product.brand}
               </div>
-            </div>
-
-            <div className={styles.itemQuantity}>
-              <div>
-                <button onClick={() => this.increment(1)} className={styles.buttonQuantity}>
-                  +
-                </button>
-              </div>
-              <div>{this.props.amount}</div>
-              <div>
-                <button onClick={() => this.increment(-1)} className={styles.buttonQuantity}>
-                  -
-                </button>
-              </div>
-            </div>
-            <div className={styles.itemImage}>
-              {product?.gallery?.map((photo) => {
-                if (count === 0) {
-                  count += 1;
-                  return <img className={styles.image} src={photo} alt={product.name}></img>;
-                }
-                return null;
-              })}
-            </div>
-            
+            </Link>
+            <div className={styles.price}>{this.getProductPrice(product.prices).toFixed(2)}</div>
           </div>
-          <ProductCategory
-              isCartMode={this.props.mode === "cart"}
-              setActiveAttributes={(attributes) => this.setActiveAttributes(attributes)}
-              attributes={product.attributes}
-              activeAttributes={this.props.activeAttributes}
-              client={this.props.client}
-              mainStorage={this.props.mainStorage}
-            />
+
+          <div className={styles.itemQuantity}>
+            <div>
+              <button onClick={() => this.increment(1)} className={styles.buttonQuantity}>
+                +
+              </button>
+            </div>
+            <div>{this.props.amount}</div>
+            <div>
+              <button onClick={() => this.increment(-1)} className={styles.buttonQuantity}>
+                -
+              </button>
+            </div>
+          </div>
+          <div className={styles.itemImage}>
+            {product?.gallery?.map((photo) => {
+              if (count === 0) {
+                count += 1;
+                return <img key={product.name} className={styles.image} src={photo} alt={product.name}></img>;
+              }
+              return null;
+            })}
+          </div>
         </div>
-      );
-    
+        <ProductCategory
+          isCartMode={this.props.mode === "cart"}
+          setActiveAttributes={(attributes) => this.setActiveAttributes(attributes)}
+          attributes={product.attributes}
+          activeAttributes={this.props.activeAttributes}
+          client={this.props.client}
+          mainStorage={this.props.mainStorage}
+        />
+      </div>
+    );
   }
 }

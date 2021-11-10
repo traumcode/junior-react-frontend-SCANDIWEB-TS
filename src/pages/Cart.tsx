@@ -120,7 +120,6 @@ export default class Cart extends React.Component<CommonProps> {
   }
 
   render() {
-
     return (
       <div className={styles.mainContainer}>
         <div className={styles.categoryNameContainer}>
@@ -131,15 +130,15 @@ export default class Cart extends React.Component<CommonProps> {
           .sort((a, b) => a.id.localeCompare(b.id))
           .map((product, index) => {
             return (
-              <ProductItem
-                key={index}
-                id={product.id}
-                mode={"view"}
-                client={this.props.client}
-                mainStorage={this.props.mainStorage}
-                activeAttributes={product.activeAttributes}
-                amount={product.amount}
-              />
+                <ProductItem
+                  key={index}
+                  id={product.id}
+                  mode={"view"}
+                  client={this.props.client}
+                  mainStorage={this.props.mainStorage}
+                  activeAttributes={product.activeAttributes}
+                  amount={product.amount}
+                />
             );
           })}
       </div>

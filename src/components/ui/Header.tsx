@@ -86,12 +86,16 @@ export default class Header extends React.Component<
     this._isMounted = false;
   }
 
+
   render() {
-    let total = 0;
+    const d = JSON.parse(window.localStorage.getItem("mainStorage"))
+    let currency = d?.currency;
+    let distinctIds = new Set(this.props.mainStorage.cartProducts?.map(id => id.id))
     return (
-      <div>
-        <Head>
-          <nav className={styles.navigation}>
+      <div >
+        
+        <Head >
+          <nav className={styles.navigation} onClick={() => this.props.setShow(null)}>
             <div className={styles.category}>
               <div
                 style={
@@ -136,12 +140,12 @@ export default class Header extends React.Component<
               })}
             </div>
           </nav>
-          <div className={styles.logoContainer}>
+          <div className={styles.logoContainer} onClick={() => this.props.setShow(null)}>
             <BrandSvg />
           </div>
           <div className={styles.shoppingCartAndCurrencyContainer}>
-            <div className={styles.smallContainer}>
-              <div className={styles.currencyButtonContainer}>
+            <div className={styles.smallContainer} >
+              <div className={styles.currencyButtonContainer} >
                 <button className={styles.currencyButton} onClick={() => this.props.setShow("currency")}>
                   <h3>{currencyToSign[this.props.mainStorage?.currency] || "$"}</h3>
                 </button>
@@ -178,7 +182,8 @@ export default class Header extends React.Component<
               >
                 <button className={styles.shoppingCartButton}>
                   <CartSvg />
-                  <span className={styles.totalItems}>{this.props.mainStorage.cartProducts?.reduce((a, v) => a + v.amount, 0) || 0}</span>
+                  {/* {this.props.mainStorage.cartProducts? = [...new Set()]} */}
+                  <span className={styles.totalItems}>{distinctIds.size}</span>
                 </button>
               </div>
             </div>
@@ -188,13 +193,12 @@ export default class Header extends React.Component<
           this.props.mainStorage?.cartProducts?.length ? (
             <div className={styles.dropDownShoppingCart}>
               <div className={styles.dropDownShoppingCartTitle}>
-                <h3>My Bag, {this.props.mainStorage.cartProducts?.reduce((a, v) => a + v.amount, 0)} items</h3>
+                <h3>My Bag, {distinctIds.size} items</h3>
               </div>
               <div className={styles.itemsContainer}>
                 {this.props.mainStorage?.cartProducts
                   ?.sort((a, b) => a.id.localeCompare(b.id))
                   .map((product, index) => {
-                    total += product.prices * product.amount;
 
                     return (
                       <div key={index}>
@@ -222,11 +226,11 @@ export default class Header extends React.Component<
                 <div className={styles.totalPriceContainer}>
                   <h3 className={styles.totalPrice}>Total</h3>
                   <h3>
+                  {currencyToSign[currency]}
                     {Object.values(this.state.prices)
                       .reduce((a, v) => a + v, 0)
                       .toFixed(2)}
                   </h3>
-                  <h3 className={styles.totalPrice}>$ {total}</h3>
                 </div>
                 <div className={styles.dropDownShoppingCartButtonContainer}>
                   <div>

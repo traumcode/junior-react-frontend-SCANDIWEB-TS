@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import styles from "./Product.module.css";
 import { ReactComponent as CircleCart } from "../../resources/circleCart.svg";
 import { setMainStorage } from "../../App";
-import { getCartProuctIndex } from "./ProductItem";
 
 export const currencyToSign = {
   GBP: "£",
@@ -28,33 +27,15 @@ export default class Product extends React.Component<{
   prices: any;
   currency: string;
 }> {
-  // buttonHandler(productId) {
-  //   const { activeAttributes } = this.state;
-
-  //   if (Object.keys(activeAttributes).length === this.state.attributes.length) {
-  //     const cartProducts = this.props.mainStorage?.cartProducts || []
-  //     const productIndex = getCartProuctIndex(activeAttributes,this.props.mainStorage?.cartProducts, productId);
-  //     const product: any = cartProducts?.[productIndex] || {id:productId, activeAttributes, amount:0, prices: [] };
-  //     product.amount++;
-
-  //     if(productIndex > -1) {
-  //       cartProducts[productIndex] = product
-  //     } else {
-  //       cartProducts.push(product);
-
-  //     }
-  //     setMainStorage({cartProducts});
-  //   } else {
-  //     this.setState({ modalState: true });
-  //   }
-  // }
   addToCard(productId) {
     let mainStorage = JSON.parse(window.localStorage.getItem("mainStorage"));
     const cartProducts = mainStorage.cartProducts || [];
     let product = {
-      activeAttributes: {},
-      amount: 1,
       id: productId,
+      activeAttributes: {
+        Size:""
+      },
+      amount: 1,
       prices: [],
     };
     cartProducts.push(product);
